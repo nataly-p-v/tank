@@ -114,20 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    function rotate() {
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        // Clear the canvas
-
-        // Move registration point to the center of the canvas
-        ctx.translate(100, 100);
-
-        // Rotate 1 degree
-        ctx.rotate(180 * (Math.PI / 180));
-        drawObject(tank1);
-        ctx.translate(-100, -100);
-
-    }
-
     function getRandom(min, max) {
         return Math.random() * (max - min) + min;
     }
@@ -150,10 +136,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 tank1.v = -90;
                 break;
             case 37:  /* Left arrow was pressed */
-                // tank1.om = -90 * Math.PI / 180;
+                tank1.om = -90 * Math.PI / 180;
                 break;
             case 39:  /* Right arrow was pressed */
-                // tank1.om = +90 * Math.PI / 180;
+                tank1.om = +90 * Math.PI / 180;
                 break;
 
         }
@@ -168,10 +154,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 tank1.v = 0;
                 break;
             case 37:  /* Left arrow was pressed */
-                // tank1.om = 0;
+                tank1.om = 0;
                 break;
             case 39:  /* Right arrow was pressed */
-                // tank1.om = 0;
+                tank1.om = 0;
             // break;
         }
     }
