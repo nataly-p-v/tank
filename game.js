@@ -79,13 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
             super(x, y, 0);
             this.R = 10;
             this.coords = [[10, -5], [10, 5], [5, 10], [-5, 10], [-10, 5], [-10, -5], [-5, -10], [5, -10]];
-            this.sequence = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5],[5, 6], [6, 7],[7, 0]];
+            this.sequence = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0]];
         }
     }
 
 
     //*******objects examples
-    let tank1 = new Tank(100, 100, Math.PI/4);
+    let tank1 = new Tank(100, 100, Math.PI / 4);
     let obstacle = new Obstacle(200, 200);
 
     //***** Draw objects
@@ -113,6 +113,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     }
+
+    function rotate() {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        // Clear the canvas
+
+        // Move registration point to the center of the canvas
+        ctx.translate(100, 100);
+
+        // Rotate 1 degree
+        ctx.rotate(180 * (Math.PI / 180));
+        drawObject(tank1);
+        ctx.translate(-100, -100);
+
+    }
+
     function getRandom(min, max) {
         return Math.random() * (max - min) + min;
     }
@@ -121,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
-    function ifObjectsConflict(object1, object2){
+    function ifObjectsConflict(object1, object2) {
         let distance = distances(object1.x, object1.y, object2.x, object2.y);
         return distance < object1.R + object2.R;
     }
@@ -135,11 +150,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 tank1.v = -90;
                 break;
             case 37:  /* Left arrow was pressed */
-                tank1.om = -90 * Math.PI / 180;
+                // tank1.om = -90 * Math.PI / 180;
                 break;
             case 39:  /* Right arrow was pressed */
-                tank1.om = +90 * Math.PI / 180;
+                // tank1.om = +90 * Math.PI / 180;
                 break;
+
         }
     }
 
@@ -152,18 +168,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 tank1.v = 0;
                 break;
             case 37:  /* Left arrow was pressed */
-                tank1.om = 0;
+                // tank1.om = 0;
                 break;
             case 39:  /* Right arrow was pressed */
-                tank1.om = 0;
-                break;
+                // tank1.om = 0;
+            // break;
         }
     }
 
     window.addEventListener('keydown', doKeyDown, true);
     window.addEventListener('keyup', keyUp, true);
 
-    function loopGame(){
+    function loopGame() {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
         ctx.beginPath();
         ctx.rect(0, 0, WIDTH, HEIGHT);
@@ -171,13 +187,13 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.stroke();
 
         tank1.update();
-
-        drawObject(tank1);
         drawObject(obstacle);
-        if(ifObjectsConflict(tank1, obstacle)){
+        drawObject(tank1);
+        if (ifObjectsConflict(tank1, obstacle)) {
             tank1.moveBack();
         }
     }
+
     setInterval(loopGame, t);
 
 });
