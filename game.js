@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     class Tank extends movableObject {
         constructor(x, y, angle) {
             super(x, y, angle);
-            this.R = 10;
+            this.R = 15;
             this.coords = [[-15, -10], [15, -10], [15, 10], [-15, 10], [5, 0], [30, 0]];
             this.sequence = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5]];
             this.hitPoints = 5;
@@ -84,6 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    //*******objects examples
+    let tank1 = new Tank(100, 100, Math.PI/4);
+    let obstacle = new Obstacle(200, 200);
+
     //***** Draw objects
     let canvas = document.getElementById("canvas");
     let ctx = canvas.getContext("2d");
@@ -109,22 +113,72 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     }
+    function getRandom(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function distances(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+
+    function ifObjectsConflict(object1, object2){
+        let distance = distances(object1.x, object1.y, object2.x, object2.y);
+        return distance < object1.R + object2.R;
+    }
+
+    function doKeyDown(evt) {
+        switch (evt.keyCode) {
+            case 38:
+                tank1.v = 90;
+                break;
+            case 40:  /* Down arrow was pressed */
+                tank1.v = -90;
+                break;
+            case 37:  /* Left arrow was pressed */
+                tank1.om = -90 * Math.PI / 180;
+                break;
+            case 39:  /* Right arrow was pressed */
+                tank1.om = +90 * Math.PI / 180;
+                break;
+        }
+    }
+
+    function keyUp(e) {
+        switch (e.keyCode) {
+            case 38:
+                tank1.v = 0;
+                break;
+            case 40:  /* Down arrow was pressed */
+                tank1.v = 0;
+                break;
+            case 37:  /* Left arrow was pressed */
+                tank1.om = 0;
+                break;
+            case 39:  /* Right arrow was pressed */
+                tank1.om = 0;
+                break;
+        }
+    }
+
+    window.addEventListener('keydown', doKeyDown, true);
+    window.addEventListener('keyup', keyUp, true);
+
     function loopGame(){
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        ctx.strokeStyle = "black";
         ctx.beginPath();
         ctx.rect(0, 0, WIDTH, HEIGHT);
         ctx.closePath();
         ctx.stroke();
+
+        tank1.update();
+
+        drawObject(tank1);
+        drawObject(obstacle);
+        if(ifObjectsConflict(tank1, obstacle)){
+            tank1.moveBack();
+        }
     }
     setInterval(loopGame, t);
-    //*******objects examples
-    let tank1 = new Tank(100, 100, Math.PI/4);
-    let bullet = new Bullet(150, 150, Math.PI/4);
-    let obstacle = new Obstacle(200, 200);
-    drawObject(tank1);
-    drawObject(bullet);
-    drawObject(obstacle);
 
 });
-//сделать функцию loop а в ней update Tank и управление игры
+//сделать поворот танка через rotate canvas
