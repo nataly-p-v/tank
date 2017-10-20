@@ -30,11 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         update() {
             let s = this.v * t / 1000;
-            this.angle += this.om * t / 1000;
             this.sx = s * Math.cos(this.angle);
             this.sy = s * Math.sin(this.angle);
             this.x += this.sx;
             this.y += this.sy;
+            var phi = this.om * t / 1000;
+            this.angle += phi;
         }
 
         moveBack() {
@@ -130,16 +131,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function doKeyDown(evt) {
         switch (evt.keyCode) {
             case 38:
-                tank1.v = 90;
+                tank1.v = 190;
                 break;
             case 40:  /* Down arrow was pressed */
-                tank1.v = -90;
+                tank1.v = -190;
                 break;
             case 37:  /* Left arrow was pressed */
-                tank1.om = -90 * Math.PI / 180;
+                tank1.om = -190 * Math.PI / 180;
                 break;
             case 39:  /* Right arrow was pressed */
-                tank1.om = +90 * Math.PI / 180;
+                tank1.om = +190 * Math.PI / 180;
                 break;
 
         }
@@ -158,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case 39:  /* Right arrow was pressed */
                 tank1.om = 0;
-            // break;
+            break;
         }
     }
 
